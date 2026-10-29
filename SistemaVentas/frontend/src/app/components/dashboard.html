@@ -1,0 +1,81 @@
+<div class="container my-5">
+  <div class="text-center mb-5">
+    <h1 class="fw-bold text-primary">Sistema de Análisis Comercial</h1>
+    <p class="text-muted">Reportes y métricas de ventas conectados a MongoDB Atlas</p>
+  </div>
+
+  <div *ngIf="reporteGeneral" class="row text-center g-4 mb-5">
+    <div class="col-md-4">
+      <div class="card shadow-sm border-0 p-4 bg-primary text-white">
+        <h6 class="text-uppercase">Facturación Total</h6>
+        <h3 class="fw-bold">{{ reporteGeneral.facturacionTotal | currency:'CRC':'symbol':'1.0-0' }}</h3>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card shadow-sm border-0 p-4 bg-success text-white">
+        <h6 class="text-uppercase">Ticket Promedio</h6>
+        <h3 class="fw-bold">{{ reporteGeneral.ticketPromedio | currency:'CRC':'symbol':'1.0-0' }}</h3>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card shadow-sm border-0 p-4 bg-dark text-white">
+        <h6 class="text-uppercase">Total Transacciones</h6>
+        <h3 class="fw-bold">{{ reporteGeneral.totalTransacciones }}</h3>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-lg-6">
+      <div class="card shadow-sm border-0 p-3 h-100">
+        <h4 class="mb-3 text-secondary">Productos Más Vendidos</h4>
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Producto</th>
+                <th>Categoría</th>
+                <th>Cantidad</th>
+                <th>Ingresos</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let p of productosMasVendidos">
+                <td class="fw-semibold">{{ p.nombre }}</td>
+                <td><span class="badge bg-info text-dark">{{ p.categoria }}</span></td>
+                <td>{{ p.cantidadTotalVendida }}</td>
+                <td>{{ p.ingresoGenerado | currency:'CRC':'symbol':'1.0-0' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="card shadow-sm border-0 p-3 h-100">
+        <h4 class="mb-3 text-secondary">Desempeño por Vendedor</h4>
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Vendedor</th>
+                <th>Sucursal</th>
+                <th>Ventas</th>
+                <th>Total Vendido</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let v of vendedores">
+                <td class="fw-semibold">{{ v.nombre }}</td>
+                <td>{{ v.sucursal }}</td>
+                <td>{{ v.cantidadVentas }}</td>
+                <td>{{ v.montoTotalVendido | currency:'CRC':'symbol':'1.0-0' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
