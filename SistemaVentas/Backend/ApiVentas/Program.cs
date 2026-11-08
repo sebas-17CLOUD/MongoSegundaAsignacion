@@ -18,7 +18,6 @@ builder.Services.AddSingleton<IMongoClient>(sp =>
 var app = builder.Build();
 app.UseCors("AllowAngular");
 
-// Métodos auxiliares seguros
 decimal GetDecimal(BsonDocument doc, string campo)
 {
     if (!doc.Contains(campo) || doc[campo] == null || doc[campo] == BsonNull.Value) return 0m;
@@ -48,7 +47,6 @@ string GetString(BsonDocument doc, string campo)
     return doc[campo].ToString() ?? "General";
 }
 
-// Extraer nombre limpio si el vendedor es un subdocumento en MongoDB
 string GetVendedorNombre(BsonDocument doc, string campo)
 {
     if (!doc.Contains(campo) || doc[campo] == null || doc[campo] == BsonNull.Value) return "Desconocido";
@@ -61,7 +59,6 @@ string GetVendedorNombre(BsonDocument doc, string campo)
     return val.ToString() ?? "Desconocido";
 }
 
-// Extraer sucursal limpia si el vendedor es un subdocumento en MongoDB
 string GetVendedorSucursal(BsonDocument doc, string campo)
 {
     if (!doc.Contains(campo) || doc[campo] == null || doc[campo] == BsonNull.Value) return "Principal";
@@ -74,9 +71,7 @@ string GetVendedorSucursal(BsonDocument doc, string campo)
     return "Principal";
 }
 
-// ==========================================
-// ENDPOINT: Reporte General
-// ==========================================
+
 app.MapGet("/api/reportes/general", async (IMongoClient client) => {
     var db = client.GetDatabase("tienda_db");
     var documentos = await db.GetCollection<BsonDocument>("ventas").Find(_ => true).ToListAsync();
@@ -94,9 +89,7 @@ app.MapGet("/api/reportes/general", async (IMongoClient client) => {
     });
 });
 
-// ==========================================
-// ENDPOINT: Productos Más Vendidos
-// ==========================================
+
 app.MapGet("/api/reportes/productos-mas-vendidos", async (IMongoClient client) => {
     var db = client.GetDatabase("tienda_db");
     var documentos = await db.GetCollection<BsonDocument>("ventas").Find(_ => true).ToListAsync();
@@ -118,9 +111,7 @@ app.MapGet("/api/reportes/productos-mas-vendidos", async (IMongoClient client) =
     return Results.Ok(ranking);
 });
 
-// ==========================================
-// ENDPOINT: Reporte de Vendedores
-// ==========================================
+
 app.MapGet("/api/reportes/vendedores", async (IMongoClient client) => {
     var db = client.GetDatabase("tienda_db");
     var documentos = await db.GetCollection<BsonDocument>("ventas").Find(_ => true).ToListAsync();
